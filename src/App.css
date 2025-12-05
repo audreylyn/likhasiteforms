@@ -256,6 +256,10 @@
   justify-content: center;
   transition: all 0.3s ease;
   flex-shrink: 0;
+  position: relative;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0;
 }
 
 .section-checkbox.checked {
@@ -269,10 +273,13 @@
 }
 
 .section-checkbox.checked .checkmark::after {
-  content: 'âœ“';
+  content: '✓';
   color: rgb(31, 31, 31);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
+  display: block;
+  text-align: center;
+  line-height: 1;
 }
 
 .section-checkbox.disabled {
@@ -294,10 +301,13 @@
 }
 
 .section-checkbox.mandatory .checkmark::after {
-  content: 'âœ“';
+  content: '✓';
   color: white;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
+  display: block;
+  text-align: center;
+  line-height: 1;
 }
 
 .mandatory-badge {
