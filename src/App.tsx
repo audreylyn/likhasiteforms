@@ -86,7 +86,7 @@ function App() {
     setIsSubmitting(true)
     setSubmitStatus(null)
 
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby1gODxtkDUQvTzcIBxtvDKxaw3FVimizzIuK_lZSFOKXVi_olSe9MEvUiqVDNqzFw/exec'
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzKxv0MKCcgmWjkZ3GbCgYi4u9DF0vmWAhbwzLZHKUtZzbAgFgkX3YpUI1wH0JqXeyo/exec'
 
     try {
       // Use URLSearchParams for reliable data transmission to Google Apps Script
@@ -255,10 +255,11 @@ function App() {
                   required
                 >
                   <option value="">Budget Range</option>
-                  <option value="5k-10k">₱5,000 - ₱10,000</option>
-                  <option value="10k-25k">₱10,000 - ₱25,000</option>
-                  <option value="25k-50k">₱25,000 - ₱50,000</option>
-                  <option value="50k+">₱50,000+</option>
+                  <option value="999-1999">₱999 - ₱1,999</option>
+                  <option value="2499-4999">₱2,499 - ₱4,999</option>
+                  <option value="5000-9999">₱5,000 - ₱9,999</option>
+                  <option value="10000+">₱10,000+</option>
+                  <option value="not-sure">I'm not sure</option>
                 </select>
                 <span className="required-indicator">*</span>
               </div>
