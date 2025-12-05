@@ -86,7 +86,7 @@ function App() {
     setIsSubmitting(true)
     setSubmitStatus(null)
 
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzKxv0MKCcgmWjkZ3GbCgYi4u9DF0vmWAhbwzLZHKUtZzbAgFgkX3YpUI1wH0JqXeyo/exec'
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyM49JMQMrEJVv-BEZeoMmf1hXMqnOmS6pduRg-LhUqsQYfZd9Y5YwtUxh_8MejhzGI/exec'
 
     try {
       // Use URLSearchParams for reliable data transmission to Google Apps Script
