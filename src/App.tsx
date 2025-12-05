@@ -20,6 +20,9 @@ function App() {
     googleDrive: ''
   })
 
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<{type: 'success' | 'error', message: string} | null>(null)
+
   const availableSections = ['Hero', 'About', 'Services', 'Gallery', 'Pricing', 'Contact', 'Blog', 'Testimonials', 'Footer', 'FAQ']
   const mandatorySections = ['Hero', 'Contact'] // Mandatory for Basic plan
 
@@ -78,10 +81,39 @@ function App() {
     return formData.sections.filter(s => !mandatorySections.includes(s)).length
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Form Data:', formData)
-    alert('Form submitted successfully! Check console for data.')
+    setIsSubmitting(true)
+    setSubmitStatus(null)
+
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxgzLZtcKyo-CT5OWfWoTwGrDMd0I_7__SPCn8UkyNZCMxWOdqKC3O_BHtUmluOVGVV/exec'
+
+    try {
+      // Use URLSearchParams for reliable data transmission to Google Apps Script
+      const params = new URLSearchParams()
+      Object.entries(formData).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          params.append(key, value.join(', '))
+        } else {
+          params.append(key, value as string)
+        }
+      })
+      params.append('timestamp', new Date().toISOString())
+
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        body: params,
+        mode: 'no-cors'
+      })
+
+      setSubmitStatus({ type: 'success', message: 'Form submitted successfully! We will be in touch soon.' })
+      console.log('Form Data submitted:', formData)
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      setSubmitStatus({ type: 'error', message: 'Failed to submit form. Please try again.' })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -123,6 +155,7 @@ function App() {
                   value={formData.businessName}
                   onChange={handleInputChange}
                 />
+                <span className="required-indicator">*</span>
               </div>
 
               {/* Business Type Dropdown */}
@@ -180,12 +213,13 @@ function App() {
               <div className="form-group full-width">
                 <textarea
                   name="address"
-                  placeholder="Address (Optional)"
+                  placeholder="Address"
                   className="form-textarea"
                   value={formData.address}
                   onChange={handleInputChange}
                   rows={2}
                 />
+                <span className="required-indicator">*</span>
               </div>
 
               {/* ========== GROUP 3: PROJECT ========== */}
@@ -282,6 +316,7 @@ function App() {
                   value={formData.socialMedia}
                   onChange={handleInputChange}
                 />
+                <span className="required-indicator">*</span>
               </div>
 
               {/* Google Drive Link */}
@@ -294,15 +329,21 @@ function App() {
                   value={formData.googleDrive}
                   onChange={handleInputChange}
                 />
+                <span className="required-indicator">*</span>
               </div>
 
               {/* Submit Button */}
               <div className="form-group full-width">
-                <button type="submit" className="submit-btn">
-                  <span className="submit-btn__text">Submit Your Project</span>
-                  <span className="submit-btn__icon"></span>
+                <button type="submit" className="submit-btn" disabled={isSubmitting}>
+                  <span className="submit-btn__text">{isSubmitting ? 'Submitting...' : 'Submit Your Project'}</span>
+                  {!isSubmitting && <span className="submit-btn__icon"></span>}
                   <span className="submit-btn__filler"></span>
                 </button>
+                {submitStatus && (
+                  <div className={`submit-status ${submitStatus.type}`}>
+                    {submitStatus.message}
+                  </div>
+                )}
               </div>
             </form>
           </div>
